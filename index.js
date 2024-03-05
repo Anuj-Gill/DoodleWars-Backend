@@ -13,9 +13,12 @@ let scores = {};
 console.log(data)
 
 
-const socketIO = require('socket.io')(http, {
-})
 app.use(cors())
+const socketIO = require('socket.io')(http, {
+  cors: {
+    origin: 'https://mern--doodlewars.netlify.app/'
+  }
+})
 
 //Socket Logic
 
