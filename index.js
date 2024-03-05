@@ -13,12 +13,9 @@ let scores = {};
 console.log(data)
 
 
-app.use(cors())
 const socketIO = require('socket.io')(http, {
-  cors: {
-    origin: 'http://localhost:5173'
-  }
 })
+app.use(cors())
 
 //Socket Logic
 
