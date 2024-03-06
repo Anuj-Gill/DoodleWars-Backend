@@ -84,8 +84,7 @@ socketIO.on('connection', (socket) => {
   socket.on('userLeft', (name, roomName) => {
     try {
       data[roomName][0].filter((user) => user === name);
-      // scores[roomName][name].filter((user) => user === name);
-      delete scores[roomName].name
+      scores[roomName] = {};
     } catch (error) {     
 
     }
@@ -114,6 +113,7 @@ socketIO.on('connection', (socket) => {
 
   //scores
   socket.on('userScore', (user, roomName, score) => {
+    
     if (!(roomName in scores)) {
       // If not present, initialize it with an empty object
       scores[roomName] = {};
