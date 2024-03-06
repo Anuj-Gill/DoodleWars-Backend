@@ -3,15 +3,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const app = express();
-// const predictRouter = require('./routes/predict')
 
 const http = require('http').Server(app);
 dotenv.config();
 
 let data = {};
 let scores = {};
-console.log(data)
-
 
 app.use(cors())
 const socketIO = require('socket.io')(http, {
@@ -35,7 +32,6 @@ socketIO.on('connection', (socket) => {
     } else {
       socket.join(roomName)
       data[roomName] = [[name]];
-      console.log(data)
       socketIO.in(roomName).emit('players-data', data[roomName]);
       socket.emit('newRoomAccepted', 'Room created successfully!!', data[roomName][0]);
     }
@@ -63,7 +59,6 @@ socketIO.on('connection', (socket) => {
       } else {
         socket.emit('newUserDeclined', 'Room does not exist!! Check the Room Code again.');
       }
-      console.log(data)
     } catch (error) {
       console.log(error)
     }
@@ -79,10 +74,7 @@ socketIO.on('connection', (socket) => {
 
   //Starting the game
   socket.on('startNewGame', (roomName) => {
-    console.log(roomName, 'Recieved request to start the game')
     if (roomName in data) {
-      console.log('Sending request to start game')
-      console.log('startingNewGame');
       socket.to(roomName).emit('startNewGame', true);
 
     }
@@ -96,18 +88,13 @@ socketIO.on('connection', (socket) => {
 
     }
   })
-  console.log(data);
-
 
   //Listen for object Id request
   socket.on('generateObjId', (roomName) => {
     const max = 25;
     const objId = Math.floor(Math.random() * max);
-    console.log(roomName, 'line 88', objId);
     if (roomName in data) {
       data[roomName][1] = objId;
-      console.log(data, 'line 93');
-
     }
   });
 
@@ -115,10 +102,8 @@ socketIO.on('connection', (socket) => {
   socket.on('requestObjId', (roomName) => {
     if (roomName in data) {
       socketIO.in(roomName).emit('sendingObjId', data[roomName][1]);
-      console.log(data[roomName][1], 'line 104');
     }
     else {
-      console.log('Join a room first!!')
       console.log('Error sending obj id');
     }
   });
@@ -127,23 +112,18 @@ socketIO.on('connection', (socket) => {
 
   //scores
   socket.on('userScore', (user, roomName, score) => {
-
-    console.log('got a request from', user, 'and room', roomName);
-
     if (!(roomName in scores)) {
       // If not present, initialize it with an empty object
       scores[roomName] = {};
     }
     // Assign the score to the user in the respective room
     scores[roomName][user] = score;
-    console.log(scores)
   });
 
   socket.on('getWinnerName', (roomName) => {
     try {
       // Sort the scores dictionary based on scores in descending order
       const sortedScores = Object.fromEntries(Object.entries(scores[roomName]).sort(([, a], [, b]) => b - a));
-      console.log(sortedScores)
       // Emit the sorted dictionary to clients
       socketIO.in(roomName).emit('winnerName', sortedScores);
     } catch (error) {
@@ -168,8 +148,6 @@ socketIO.on('connection', (socket) => {
       } else {
         socketIO.in(roomName).emit('resIsAdmin', data[roomName][0][0]);
       }
-
-    console.log(data);
     }
   })
 
