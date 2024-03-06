@@ -110,9 +110,8 @@ socketIO.on('connection', (socket) => {
       scores[roomName] = {};
     }
     // Assign the score to the user in the respective room
-    if(user in data[roomName][0]) {
-      scores[roomName][user] = score;
-    }
+    scores[roomName][user] = score;
+    
   });
 
   socket.on('getWinnerName', (roomName) => {
