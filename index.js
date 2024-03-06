@@ -80,15 +80,6 @@ socketIO.on('connection', (socket) => {
     }
   })
 
-  //Listen for user left
-  // socket.on('userLeft', (name, roomName) => {
-  //   try {
-  //     data[roomName][0].filter((user) => user === name);
-      
-  //   } catch (error) {     
-
-  //   }
-  // })
 
   //Listen for object Id request
   socket.on('generateObjId', (roomName) => {
