@@ -13,7 +13,7 @@ let scores = {};
 app.use(cors())
 const socketIO = require('socket.io')(http, {
   cors: {
-    origin: ['https://mern--doodlewars.netlify.app','http://localhost:5173']
+    origin: ['https://mern--doodlewars.netlify.app']
   }
 })
 
@@ -145,7 +145,6 @@ socketIO.on('connection', (socket) => {
       let i = data[roomName][0].indexOf(userName);
        if (i !== -1) {
         data[roomName][0].splice(i, 1);
-        scores[roomName] = {};
       }
       
       
