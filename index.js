@@ -130,7 +130,7 @@ socketIO.on('connection', (socket) => {
   })
 
   socket.on('userLeft', (userName, roomName) => {
-    console.log(scores);
+    scores[roomName] = {};
     if(roomName in data){
       let i = data[roomName][0].indexOf(userName);
        if (i !== -1) {
