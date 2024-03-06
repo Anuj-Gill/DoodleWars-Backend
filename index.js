@@ -84,7 +84,9 @@ socketIO.on('connection', (socket) => {
   socket.on('userLeft', (name, roomName) => {
     try {
       data[roomName][0].filter((user) => user === name);
-    } catch (error) {
+      // scores[roomName][name].filter((user) => user === name);
+      delete scores[roomName].name
+    } catch (error) {     
 
     }
   })
