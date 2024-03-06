@@ -81,14 +81,14 @@ socketIO.on('connection', (socket) => {
   })
 
   //Listen for user left
-  socket.on('userLeft', (name, roomName) => {
-    try {
-      data[roomName][0].filter((user) => user === name);
-      scores[roomName] = {};
-    } catch (error) {     
+  // socket.on('userLeft', (name, roomName) => {
+  //   try {
+  //     data[roomName][0].filter((user) => user === name);
+      
+  //   } catch (error) {     
 
-    }
-  })
+  //   }
+  // })
 
   //Listen for object Id request
   socket.on('generateObjId', (roomName) => {
@@ -140,10 +140,12 @@ socketIO.on('connection', (socket) => {
   })
 
   socket.on('userLeft', (userName, roomName) => {
+    console.log(scores);
     if(roomName in data){
       let i = data[roomName][0].indexOf(userName);
        if (i !== -1) {
         data[roomName][0].splice(i, 1);
+        scores[roomName] = {};
       }
       
       
@@ -156,6 +158,8 @@ socketIO.on('connection', (socket) => {
   })
 
 })
+
+
 
 app.use(bodyParser.json());
 
