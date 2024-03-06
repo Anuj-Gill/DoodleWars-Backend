@@ -13,7 +13,7 @@ let scores = {};
 app.use(cors())
 const socketIO = require('socket.io')(http, {
   cors: {
-    origin: ['https://mern--doodlewars.netlify.app','http://localhost:5173/']
+    origin: ['https://mern--doodlewars.netlify.app','http://localhost:5173']
   }
 })
 
