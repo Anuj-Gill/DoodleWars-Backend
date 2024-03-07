@@ -13,9 +13,9 @@ let scores = {};
 app.use(cors());
 const socketIO = require("socket.io")(http, {
   cors: {
-    origin: "http://localhost:5173",
-  },
-});
+    origin: ['https://mern--doodlewars.netlify.app']
+  }
+})
 
 //Socket Logic
 socketIO.on("connection", (socket) => {
@@ -98,19 +98,22 @@ socketIO.on("connection", (socket) => {
     }
   });
 
-  //Listen for user left
-  socket.on("userLeft", (name, roomName) => {
-    try {
-      data[roomName][0].filter((user) => user === name);
-    } catch (error) {}
-  });
 
   //Listen for object Id request
   socket.on("generateObjId", (roomName) => {
-    const max = 25;
-    const objId = Math.floor(Math.random() * max);
     if (roomName in data) {
-      data[roomName][1] = objId;
+      if (!data[roomName][2] || data[roomName][2].length === 25) {
+        data[roomName][2] = []; 
+      }
+
+      let objId;
+      const max = 25;
+      do {
+        objId = Math.floor(Math.random() * max); 
+      } while (data[roomName][2].includes(objId)); 
+
+      data[roomName][1] = objId; 
+      data[roomName][2].push(objId); 
     }
   });
 
@@ -129,11 +132,8 @@ socketIO.on("connection", (socket) => {
       scores[roomName] = {};
     }
     // Assign the score to the user in the respective room
-    console.log(data[roomName][0])
     scores[roomName][user] = score;
-    console.log(scores)
-    console.log(data)
-    console.log(user,score)
+    
   });
 
   socket.on("getWinnerName", (roomName) => {
