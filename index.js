@@ -42,6 +42,7 @@ socketIO.on("connection", (socket) => {
         "Room created successfully!!",
         data[roomName][0]
       );
+      console.log(data);
     }
   });
 
