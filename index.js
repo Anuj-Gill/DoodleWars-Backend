@@ -72,7 +72,6 @@ socketIO.on("connection", (socket) => {
             data[roomName][0]
           );
           socketIO.in(roomName).emit("players-data", data[roomName][0]);
-          socket.to(roomName).emit("players-data", data[roomName][0]);
         }
       } else {
         socket.emit(
@@ -134,6 +133,7 @@ socketIO.on("connection", (socket) => {
     }
     // Assign the score to the user in the respective room
     scores[roomName][user] = score;
+    console.log(scores);
 
   });
 
@@ -160,6 +160,7 @@ socketIO.on("connection", (socket) => {
       let i = data[roomName][0].indexOf(userName);
       if (i !== -1) {
         data[roomName][0].splice(i, 1);
+        socketIO.in(roomName).emit("players-data", data[roomName][0]);
       }
 
 
