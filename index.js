@@ -72,6 +72,7 @@ socketIO.on("connection", (socket) => {
             data[roomName][0]
           );
           socketIO.in(roomName).emit("players-data", data[roomName][0]);
+          console.log(data);
         }
       } else {
         socket.emit(
@@ -133,7 +134,6 @@ socketIO.on("connection", (socket) => {
     }
     // Assign the score to the user in the respective room
     scores[roomName][user] = score;
-    console.log(scores);
 
   });
 
