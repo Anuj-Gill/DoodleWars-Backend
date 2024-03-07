@@ -126,14 +126,15 @@ socketIO.on("connection", (socket) => {
   });
 
   //scores
-  socket.on("userScore", (user, roomName, score) => {
+  socket.on('userScore', (user, roomName, score) => {
+
     if (!(roomName in scores)) {
       // If not present, initialize it with an empty object
       scores[roomName] = {};
     }
     // Assign the score to the user in the respective room
     scores[roomName][user] = score;
-    
+
   });
 
   socket.on("getWinnerName", (roomName) => {
@@ -153,13 +154,14 @@ socketIO.on("connection", (socket) => {
     socketIO.in(roomName).emit("resIsAdmin", data[roomName][0][0]);
   });
 
-  socket.on("userLeft", (userName, roomName) => {
+  socket.on('userLeft', (userName, roomName) => {
     if (roomName in data) {
-      scores[roomName] = {}
+      scores[roomName] = {};
       let i = data[roomName][0].indexOf(userName);
       if (i !== -1) {
         data[roomName][0].splice(i, 1);
       }
+
 
       if (data[roomName][0].length === 0) {
         delete data[roomName];
